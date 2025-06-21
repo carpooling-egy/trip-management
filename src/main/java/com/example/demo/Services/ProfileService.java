@@ -31,38 +31,43 @@ public class ProfileService {
      * Fetches fullName and gender for a given user ID from the profile service.
      */
     public UserProfileDTO getUserProfile(String userId) {
-        try {
-            // e.g. GET http://profiles-service/api/users/{userId}/profile
-            ResponseEntity<String> response = rest.getForEntity(urlTemplate, String.class, userId);
-            String json = response.getBody();
-            JsonNode root = mapper.readTree(json);
-
-            // Extract fullName
-            String fullName;
-            if (root.has("fullName")) {
-                fullName = root.get("fullName").asText();
-            } else {
-                throw new ProfileFetchException(
-                        "fullName field not found in profile response for user " + userId);
-            }
-
-            // Extract gender (either as raw text or nested field)
-            String genderValue;
-            if (root.has("gender")) {
-                genderValue = root.get("gender").asText();
-            } else if (root.isTextual()) {
-                genderValue = root.textValue();
-            } else {
-                throw new ProfileFetchException(
-                        "gender field not found in profile response for user " + userId);
-            }
-
-            GenderType gender = GenderType.valueOf(genderValue.toUpperCase());
-
-            return new UserProfileDTO(userId, fullName, gender);
-
-        } catch (RestClientException | JsonProcessingException | IllegalArgumentException e) {
-            throw new ProfileFetchException("Failed to fetch profile for user " + userId, e);
-        }
+        return new UserProfileDTO(
+                userId,
+                "Placeholder Name",    // stub fullName
+                GenderType.male        // or FEMALE, or derive from userId if you like
+        );
+//        try {
+//            // e.g. GET http://profiles-service/api/users/{userId}/profile
+//            ResponseEntity<String> response = rest.getForEntity(urlTemplate, String.class, userId);
+//            String json = response.getBody();
+//            JsonNode root = mapper.readTree(json);
+//
+//            // Extract fullName
+//            String fullName;
+//            if (root.has("fullName")) {
+//                fullName = root.get("fullName").asText();
+//            } else {
+//                throw new ProfileFetchException(
+//                        "fullName field not found in profile response for user " + userId);
+//            }
+//
+//            // Extract gender (either as raw text or nested field)
+//            String genderValue;
+//            if (root.has("gender")) {
+//                genderValue = root.get("gender").asText();
+//            } else if (root.isTextual()) {
+//                genderValue = root.textValue();
+//            } else {
+//                throw new ProfileFetchException(
+//                        "gender field not found in profile response for user " + userId);
+//            }
+//
+//            GenderType gender = GenderType.valueOf(genderValue.toUpperCase());
+//
+//            return new UserProfileDTO(userId, fullName, gender);
+//
+//        } catch (RestClientException | JsonProcessingException | IllegalArgumentException e) {
+//            throw new ProfileFetchException("Failed to fetch profile for user " + userId, e);
+//        }
     }
 }

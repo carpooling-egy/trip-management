@@ -1,6 +1,8 @@
 package com.example.demo.DTOs;
 
 import com.example.demo.Models.EntityClasses.RiderRequest;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,15 +16,14 @@ import java.time.ZonedDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RiderRequestDTO extends BaseTripDTO {
-    @NonNull
-    @NotBlank
+
+    @Future
     private ZonedDateTime earliestDepartureTime;
-    @NonNull
-    @NotBlank
+    @Future
     private ZonedDateTime latestArrivalTime;
-    @NotBlank
+    @Min(0)
     private int maxWalkingTimeMinutes;
-    @NotBlank
+    @Min(1)
     private int numberOfRiders;
     private boolean isMatched;
 

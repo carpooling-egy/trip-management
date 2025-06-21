@@ -15,39 +15,25 @@ import java.time.ZonedDateTime;
 public abstract class BaseTripDTO {
 
     private String id;
-    @NonNull
     @NotBlank
     private String userId;
     @NonNull
-    @NotBlank
     private BigDecimal sourceLatitude;
     @NonNull
-    @NotBlank
     private BigDecimal sourceLongitude;
-    @NonNull
     @NotBlank
     private String sourceAddress;
     @NonNull
-    @NotBlank
     private BigDecimal destinationLatitude;
     @NonNull
-    @NotBlank
     private BigDecimal destinationLongitude;
-    @NonNull
     @NotBlank
     private String destinationAddress;
 
     // common preferences
-    @NotBlank
-    private boolean sameGender;
-
-    //private GenderType userGender;
+    private boolean sameGender = false;
 
     // audit
-    @NonNull
-    @NotBlank
     private ZonedDateTime createdAt;
-    @NonNull
-    @NotBlank
     private ZonedDateTime updatedAt;
 }

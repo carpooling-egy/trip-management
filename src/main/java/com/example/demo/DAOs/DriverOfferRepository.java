@@ -16,7 +16,7 @@ public interface DriverOfferRepository extends JpaRepository<DriverOffer, String
   SELECT d
     FROM DriverOffer d
    WHERE d.userId = :userId
-     AND d.estimatedArrivalTime > :now
+     AND d.maxEstimatedArrivalTime > :now
   """)
     List<DriverOffer> findUpcomingOffers(
             @Param("userId") String userId,
