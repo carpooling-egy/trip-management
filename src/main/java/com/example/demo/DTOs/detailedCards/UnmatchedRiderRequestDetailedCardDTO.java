@@ -1,39 +1,28 @@
-package com.example.demo.DTOs;
+package com.example.demo.DTOs.detailedCards;
 
-import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 import java.math.BigDecimal;
 import java.time.ZonedDateTime;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public abstract class BaseTripDTO {
-
+public class UnmatchedRiderRequestDetailedCardDTO {
     private String id;
-    @NotBlank
-    private String userId;
-    @NonNull
     private BigDecimal sourceLatitude;
-    @NonNull
     private BigDecimal sourceLongitude;
-    @NotBlank
     private String sourceAddress;
-    @NonNull
     private BigDecimal destinationLatitude;
-    @NonNull
     private BigDecimal destinationLongitude;
-    @NotBlank
     private String destinationAddress;
 
-    // common preferences
-    private boolean sameGender = false;
-
-    // audit
+    private boolean sameGender;
     private ZonedDateTime createdAt;
-    private ZonedDateTime updatedAt;
+
+    private ZonedDateTime earliestDepartureTime;
+    private ZonedDateTime latestArrivalTime;
+    private int maxWalkingTimeMinutes;
+    private int numberOfRiders;
+    private boolean matched;
 }

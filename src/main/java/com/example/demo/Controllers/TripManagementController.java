@@ -1,13 +1,13 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.DTOs.DriverOfferWithRidersDTO;
-import com.example.demo.DTOs.MatchedRiderTripDTO;
-import com.example.demo.DTOs.RiderRequestDTO;
 import com.example.demo.DTOs.UpcomingTripsResponseDTO;
-import com.example.demo.DTOs.cards.DriverOfferCardDTO;
-import com.example.demo.DTOs.cards.MatchedRiderRequestCardDTO;
-import com.example.demo.DTOs.cards.RiderRequestCardDTO;
-import com.example.demo.DTOs.cards.SummarizedCardsResponseDTO;
+import com.example.demo.DTOs.detailedCards.DriverOfferDetailedCardDTO;
+import com.example.demo.DTOs.detailedCards.MatchedRiderRequestDetailedCardDTO;
+import com.example.demo.DTOs.detailedCards.UnmatchedRiderRequestDetailedCardDTO;
+import com.example.demo.DTOs.summarizedCards.DriverOfferCardDTO;
+import com.example.demo.DTOs.summarizedCards.MatchedRiderRequestCardDTO;
+import com.example.demo.DTOs.summarizedCards.RiderRequestCardDTO;
+import com.example.demo.DTOs.summarizedCards.SummarizedCardsResponseDTO;
 import com.example.demo.Services.DriverOfferService;
 import com.example.demo.Services.RiderRequestService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +15,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/trip-management")
 public class TripManagementController {
 
     @Autowired
@@ -27,28 +28,26 @@ public class TripManagementController {
     private RiderRequestService riderRequestService;
 
     /**
-     * GET /api/users/{userId}/upcomingTrips
      * Returns all matched upcoming trips for the specified user, whether as driver or rider.
      */
     @GetMapping("/upcomingTrips/{userId}")
     public ResponseEntity<UpcomingTripsResponseDTO> getUpcomingTrips(@PathVariable String userId) {
         // Trips where user is the driver
-        List<DriverOfferWithRidersDTO> driverTrips = driverOfferService.getAllUpcomingTrips(userId);
+        List<DriverOfferCardDTO> driverTrips = driverOfferService.getSummarizedAllUpcomingTrips(userId);
         // Trips where user is the rider
-        List<MatchedRiderTripDTO> riderTrips = riderRequestService.getMatchedUpcomingTripsByRider(userId);
+        List<MatchedRiderRequestCardDTO> riderTrips = riderRequestService.getSummarizedMatchedUpcomingTripsByRider(userId);
 
         UpcomingTripsResponseDTO response = new UpcomingTripsResponseDTO(driverTrips, riderTrips);
         return ResponseEntity.ok(response);
     }
 
     /**
-     * GET /api/users/{userId}/myTrips
-     * Returns all upcoming unmatched trips where the specified user is a rider.
+      * Returns all upcoming unmatched trips where the specified user is a rider.
      */
-    @GetMapping("/myTrips/{userId}")
-    public ResponseEntity<List<RiderRequestDTO>> getMyUpcomingUnmatchedTrips(@PathVariable String userId) {
-        List<RiderRequestDTO> trips = riderRequestService.getUnmatchedUpcomingTripsByRider(userId);
-        return ResponseEntity.ok(trips);
+    @GetMapping("/pending-rider-requests/{userId}")
+    public ResponseEntity<List<RiderRequestCardDTO>> getMyUpcomingUnmatchedTrips(@PathVariable String userId) {
+        List<RiderRequestCardDTO> unmatchedRiderRequests = riderRequestService.getSummarizedUnmatchedUpcomingTripsByRider(userId);
+        return ResponseEntity.ok(unmatchedRiderRequests);
     }
 
     /**
@@ -58,11 +57,11 @@ public class TripManagementController {
     @GetMapping("/summarized-cards/{userId}")
     public ResponseEntity<SummarizedCardsResponseDTO> getSummarizedCards(@PathVariable String userId) {
         // Trips where user is the driver
-        List<DriverOfferCardDTO> driverOffers = driverOfferService.getAllUpcomingTrips(userId);
+        List<DriverOfferCardDTO> driverOffers = driverOfferService.getSummarizedAllUpcomingTrips(userId);
         // Trips where user is the rider
-        List<MatchedRiderRequestCardDTO> matchedRiderRequests = riderRequestService.getMatchedUpcomingTripsByRider(userId);
+        List<MatchedRiderRequestCardDTO> matchedRiderRequests = riderRequestService.getSummarizedMatchedUpcomingTripsByRider(userId);
         // Unmatched trips where user is a rider
-        List<RiderRequestCardDTO> unmatchedRiderRequests = riderRequestService.getUnmatchedUpcomingTripsByRider(userId);
+        List<RiderRequestCardDTO> unmatchedRiderRequests = riderRequestService.getSummarizedUnmatchedUpcomingTripsByRider(userId);
 
         SummarizedCardsResponseDTO response = new SummarizedCardsResponseDTO(
                 driverOffers, unmatchedRiderRequests, matchedRiderRequests
@@ -70,5 +69,35 @@ public class TripManagementController {
         return ResponseEntity.ok(response);
     }
 
+    @PostMapping("/detailed-card/{cardType}")
+    public ResponseEntity<?> getDetailedCard(
+            @PathVariable String cardType,
+            @RequestBody Map<String, String> body
+    ) {
+        String userId = body.get("userId");
+        String cardId = body.get("cardId");
 
+        switch (cardType.toLowerCase()) {
+            case "rider-request":
+                boolean matched = riderRequestService.isRequestMatched(cardId);
+                if (matched) {
+                    MatchedRiderRequestDetailedCardDTO dto =
+                            riderRequestService.getMatchedRiderRequestDetail(userId, cardId);
+                    return ResponseEntity.ok(dto);
+                } else {
+                    UnmatchedRiderRequestDetailedCardDTO dto =
+                            riderRequestService.getUnmatchedRiderRequestDetail(userId, cardId);
+                    return ResponseEntity.ok(dto);
+                }
+
+            case "driver-offer":
+                DriverOfferDetailedCardDTO dto =
+                        driverOfferService.getDriverOfferDetail(userId, cardId);
+                return ResponseEntity.ok(dto);
+
+            default:
+                return ResponseEntity.badRequest()
+                        .body("Invalid cardType: " + cardType);
+        }
+    }
 }

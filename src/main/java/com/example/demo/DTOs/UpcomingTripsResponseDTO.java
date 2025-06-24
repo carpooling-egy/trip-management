@@ -1,16 +1,16 @@
 package com.example.demo.DTOs;
 
+import com.example.demo.DTOs.summarizedCards.DriverOfferCardDTO;
+import com.example.demo.DTOs.summarizedCards.MatchedRiderRequestCardDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class UpcomingTripsResponseDTO {
-    private List<DriverOfferWithRidersDTO> driverOffers;
-    private List<MatchedRiderTripDTO> riderRequests;
+
+    private List<DriverOfferCardDTO> driverTrips;
+    private List<MatchedRiderRequestCardDTO> riderTrips;
 }

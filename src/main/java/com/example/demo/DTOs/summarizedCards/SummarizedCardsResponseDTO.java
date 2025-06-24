@@ -1,4 +1,4 @@
-package com.example.demo.DTOs.cards;
+package com.example.demo.DTOs.summarizedCards;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

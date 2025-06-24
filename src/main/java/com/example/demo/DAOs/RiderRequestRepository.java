@@ -28,4 +28,12 @@ public interface RiderRequestRepository extends JpaRepository<RiderRequest, Stri
             @Param("now") ZonedDateTime now
     );
 
+
+    @Query("""
+      SELECT r.isMatched
+        FROM RiderRequest r
+       WHERE r.id = :requestId
+    """)
+    boolean isRequestMatched(String requestId);
+
 }
