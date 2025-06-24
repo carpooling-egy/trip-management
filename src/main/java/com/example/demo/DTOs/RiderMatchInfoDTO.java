@@ -13,7 +13,8 @@ import java.time.ZonedDateTime;
 public class RiderMatchInfoDTO {
     // Rider & profile
     private final String riderId;
-    private final String riderName;
+    private final String riderFirstName;
+    private final String riderLastName;
     private final GenderType riderGender;
 
     // Timing

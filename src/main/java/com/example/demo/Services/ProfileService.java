@@ -31,24 +31,33 @@ public class ProfileService {
      * Fetches fullName and gender for a given user ID from the profile service.
      */
     public UserProfileDTO getUserProfile(String userId) {
+
         return new UserProfileDTO(
-                userId,
-                "Placeholder Name",    // stub fullName
-                GenderType.male        // or FEMALE, or derive from userId if you like
+                "123","maroooo","www",GenderType.female
         );
+
 //        try {
-//            // e.g. GET http://profiles-service/api/users/{userId}/profile
+//            // GET http://api/profile/enrich/{userId}
 //            ResponseEntity<String> response = rest.getForEntity(urlTemplate, String.class, userId);
 //            String json = response.getBody();
 //            JsonNode root = mapper.readTree(json);
 //
-//            // Extract fullName
-//            String fullName;
-//            if (root.has("fullName")) {
-//                fullName = root.get("fullName").asText();
+//            // Extract firstName
+//            String firstName;
+//            if (root.has("firstName")) {
+//                firstName = root.get("firstName").asText();
 //            } else {
 //                throw new ProfileFetchException(
-//                        "fullName field not found in profile response for user " + userId);
+//                        "firstName field not found in profile response for user " + userId);
+//            }
+//
+//            // Extract lastName
+//            String lastName;
+//            if (root.has("lastName")) {
+//                lastName = root.get("lastName").asText();
+//            } else {
+//                throw new ProfileFetchException(
+//                        "lastName field not found in profile response for user " + userId);
 //            }
 //
 //            // Extract gender (either as raw text or nested field)
@@ -62,9 +71,9 @@ public class ProfileService {
 //                        "gender field not found in profile response for user " + userId);
 //            }
 //
-//            GenderType gender = GenderType.valueOf(genderValue.toUpperCase());
+//            GenderType gender = GenderType.valueOf(genderValue.trim().toLowerCase());
 //
-//            return new UserProfileDTO(userId, fullName, gender);
+//            return new UserProfileDTO(userId, firstName, lastName, gender);
 //
 //        } catch (RestClientException | JsonProcessingException | IllegalArgumentException e) {
 //            throw new ProfileFetchException("Failed to fetch profile for user " + userId, e);

@@ -32,7 +32,8 @@ public class DriverOfferService {
 
                         return new RiderMatchInfoDTO(
                                 riderReq.getUserId(),
-                                profile.getFullName(),
+                                profile.getFirstName(),
+                                profile.getLastName(),
                                 profile.getGender(),
                                 pickupPoint.getExpectedArrivalTime(),
                                 dropoffPoint.getExpectedArrivalTime(),

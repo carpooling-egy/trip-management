@@ -8,6 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class UserProfileDTO {
     private String userId;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private GenderType gender;
 }

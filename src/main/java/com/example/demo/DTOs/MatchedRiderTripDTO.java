@@ -23,7 +23,8 @@ public class MatchedRiderTripDTO extends RiderRequestDTO {
 
     // driver profile info
     private String driverId;
-    private String driverName;
+    private String driverFistName;
+    private String driverLastName;
     private GenderType driverGender;
 
     public MatchedRiderTripDTO(
@@ -48,7 +49,8 @@ public class MatchedRiderTripDTO extends RiderRequestDTO {
         // 3) attach the driver’s user/profile info
         var driverOffer = match.getDriverOffer();
         this.driverId     = driverOffer.getUserId();
-        this.driverName   = driverProfile.getFullName();
+        this.driverFistName = driverProfile.getFirstName();
+        this.driverLastName = driverProfile.getLastName();
         this.driverGender = driverProfile.getGender();
     }
 }
