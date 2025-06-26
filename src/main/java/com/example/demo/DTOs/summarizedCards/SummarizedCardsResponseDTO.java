@@ -8,6 +8,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SummarizedCardsResponseDTO {
     private List<DriverOfferCardDTO> driverOffers;
-    private List<RiderRequestCardDTO> unmatchedRiderRequests;
+    private List<UnmatchedRiderRequestCardDTO> unmatchedRiderRequests;
     private List<MatchedRiderRequestCardDTO> matchedRiderRequests;
 }

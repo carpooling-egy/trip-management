@@ -32,51 +32,53 @@ public class ProfileService {
      */
     public UserProfileDTO getUserProfile(String userId) {
 
-        return new UserProfileDTO(
-                "123","maroooo","www",GenderType.female
-        );
+//        return new UserProfileDTO(
+//                "123","maroooo","www",GenderType.female
+//        );
 
-//        try {
-//            // GET http://api/profile/enrich/{userId}
-//            ResponseEntity<String> response = rest.getForEntity(urlTemplate, String.class, userId);
-//            String json = response.getBody();
-//            JsonNode root = mapper.readTree(json);
-//
-//            // Extract firstName
-//            String firstName;
-//            if (root.has("firstName")) {
-//                firstName = root.get("firstName").asText();
-//            } else {
-//                throw new ProfileFetchException(
-//                        "firstName field not found in profile response for user " + userId);
-//            }
-//
-//            // Extract lastName
-//            String lastName;
-//            if (root.has("lastName")) {
-//                lastName = root.get("lastName").asText();
-//            } else {
-//                throw new ProfileFetchException(
-//                        "lastName field not found in profile response for user " + userId);
-//            }
-//
-//            // Extract gender (either as raw text or nested field)
-//            String genderValue;
-//            if (root.has("gender")) {
-//                genderValue = root.get("gender").asText();
-//            } else if (root.isTextual()) {
-//                genderValue = root.textValue();
-//            } else {
-//                throw new ProfileFetchException(
-//                        "gender field not found in profile response for user " + userId);
-//            }
-//
-//            GenderType gender = GenderType.valueOf(genderValue.trim().toLowerCase());
-//
-//            return new UserProfileDTO(userId, firstName, lastName, gender);
-//
-//        } catch (RestClientException | JsonProcessingException | IllegalArgumentException e) {
-//            throw new ProfileFetchException("Failed to fetch profile for user " + userId, e);
-//        }
+        try {
+            // GET http://api/profile/enrich/{userId}
+            ResponseEntity<String> response = rest.getForEntity(urlTemplate, String.class, userId);
+            String json = response.getBody();
+            JsonNode root = mapper.readTree(json);
+
+            // Extract firstName
+            String firstName;
+            if (root.has("firstName")) {
+                firstName = root.get("firstName").asText();
+            } else {
+                throw new ProfileFetchException(
+                        "firstName field not found in profile response for user " + userId);
+            }
+
+            // Extract lastName
+            String lastName;
+            if (root.has("lastName")) {
+                lastName = root.get("lastName").asText();
+            } else {
+                throw new ProfileFetchException(
+                        "lastName field not found in profile response for user " + userId);
+            }
+
+            // Extract gender (either as raw text or nested field)
+            String genderValue;
+            if (root.has("gender")) {
+                genderValue = root.get("gender").asText();
+            } else if (root.isTextual()) {
+                genderValue = root.textValue();
+            } else {
+                throw new ProfileFetchException(
+                        "gender field not found in profile response for user " + userId);
+            }
+
+            GenderType gender = GenderType.valueOf(genderValue.trim().toLowerCase());
+            System.out.println(
+                    firstName + " " + lastName + " " + gender.name()
+            );
+            return new UserProfileDTO(userId, firstName, lastName, gender);
+
+        } catch (RestClientException | JsonProcessingException | IllegalArgumentException e) {
+            throw new ProfileFetchException("Failed to fetch profile for user " + userId, e);
+        }
     }
 }

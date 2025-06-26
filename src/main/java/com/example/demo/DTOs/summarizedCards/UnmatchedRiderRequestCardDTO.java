@@ -6,7 +6,7 @@ import java.time.ZonedDateTime;
 
 @Data
 @AllArgsConstructor
-public class RiderRequestCardDTO {
+public class UnmatchedRiderRequestCardDTO {
     private String id;
     private String type = "rider-request";
     private String sourceAddress;

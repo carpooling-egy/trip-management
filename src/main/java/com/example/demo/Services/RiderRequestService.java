@@ -3,7 +3,7 @@ package com.example.demo.Services;
 import com.example.demo.DTOs.detailedCards.MatchedRiderRequestDetailedCardDTO;
 import com.example.demo.DTOs.detailedCards.UnmatchedRiderRequestDetailedCardDTO;
 import com.example.demo.DTOs.summarizedCards.MatchedRiderRequestCardDTO;
-import com.example.demo.DTOs.summarizedCards.RiderRequestCardDTO;
+import com.example.demo.DTOs.summarizedCards.UnmatchedRiderRequestCardDTO;
 import com.example.demo.Models.EntityClasses.RiderRequest;
 import com.example.demo.DAOs.RiderRequestRepository;
 import lombok.RequiredArgsConstructor;
@@ -48,12 +48,12 @@ public class RiderRequestService {
     }
 
 
-    public List<RiderRequestCardDTO> getSummarizedUnmatchedUpcomingTripsByRider(String userId) {
+    public List<UnmatchedRiderRequestCardDTO> getSummarizedUnmatchedUpcomingTripsByRider(String userId) {
         ZonedDateTime now = ZonedDateTime.now();
         List<RiderRequest> requests = riderRepo.findUnmatchedUpcoming(userId, now);
 
         return requests.stream()
-                .map(req -> new RiderRequestCardDTO(
+                .map(req -> new UnmatchedRiderRequestCardDTO(
                         req.getId(),
                         "rider-request",              // type field
                         req.getSourceAddress(),

@@ -6,7 +6,7 @@ import com.example.demo.DTOs.detailedCards.MatchedRiderRequestDetailedCardDTO;
 import com.example.demo.DTOs.detailedCards.UnmatchedRiderRequestDetailedCardDTO;
 import com.example.demo.DTOs.summarizedCards.DriverOfferCardDTO;
 import com.example.demo.DTOs.summarizedCards.MatchedRiderRequestCardDTO;
-import com.example.demo.DTOs.summarizedCards.RiderRequestCardDTO;
+import com.example.demo.DTOs.summarizedCards.UnmatchedRiderRequestCardDTO;
 import com.example.demo.DTOs.summarizedCards.SummarizedCardsResponseDTO;
 import com.example.demo.Services.DriverOfferService;
 import com.example.demo.Services.RiderRequestService;
@@ -45,13 +45,13 @@ public class TripManagementController {
       * Returns all upcoming unmatched trips where the specified user is a rider.
      */
     @GetMapping("/pending-rider-requests/{userId}")
-    public ResponseEntity<List<RiderRequestCardDTO>> getMyUpcomingUnmatchedTrips(@PathVariable String userId) {
-        List<RiderRequestCardDTO> unmatchedRiderRequests = riderRequestService.getSummarizedUnmatchedUpcomingTripsByRider(userId);
+    public ResponseEntity<List<UnmatchedRiderRequestCardDTO>> getMyUpcomingUnmatchedTrips(@PathVariable String userId) {
+        List<UnmatchedRiderRequestCardDTO> unmatchedRiderRequests = riderRequestService.getSummarizedUnmatchedUpcomingTripsByRider(userId);
         return ResponseEntity.ok(unmatchedRiderRequests);
     }
 
     /**
-     * GET /api/users/summarized-cards/{userId}
+     * GET /trip-management/summarized-cards/{userId}
      * Returns all matched upcoming trips where the specified user is a rider.
      */
     @GetMapping("/summarized-cards/{userId}")
@@ -61,7 +61,7 @@ public class TripManagementController {
         // Trips where user is the rider
         List<MatchedRiderRequestCardDTO> matchedRiderRequests = riderRequestService.getSummarizedMatchedUpcomingTripsByRider(userId);
         // Unmatched trips where user is a rider
-        List<RiderRequestCardDTO> unmatchedRiderRequests = riderRequestService.getSummarizedUnmatchedUpcomingTripsByRider(userId);
+        List<UnmatchedRiderRequestCardDTO> unmatchedRiderRequests = riderRequestService.getSummarizedUnmatchedUpcomingTripsByRider(userId);
 
         SummarizedCardsResponseDTO response = new SummarizedCardsResponseDTO(
                 driverOffers, unmatchedRiderRequests, matchedRiderRequests
