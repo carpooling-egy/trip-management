@@ -32,10 +32,6 @@ public class ProfileService {
      */
     public UserProfileDTO getUserProfile(String userId) {
 
-//        return new UserProfileDTO(
-//                "123","maroooo","www",GenderType.female
-//        );
-
         try {
             // GET http://api/profile/enrich/{userId}
             ResponseEntity<String> response = rest.getForEntity(urlTemplate, String.class, userId);

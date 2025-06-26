@@ -1,4 +1,3 @@
-// com.example.demo.DTOs.cards/MatchedRiderRequestDetailedCardDTO.java
 package com.example.demo.DTOs.detailedCards;
 
 import lombok.AllArgsConstructor;
