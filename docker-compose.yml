@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  trip-management-service:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgis-dev-server.postgres.database.azure.com:5432/postgres?sslmode=require
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
+      PROFILE_SERVICE_URL_TEMPLATE: https://rude-laws-buy.loca.lt/api/profiles/enrich/{userId}
+
+    ports:
+      - "8080:8080"
+    restart: always
+
+volumes:
+  db_data:
