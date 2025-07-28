@@ -14,7 +14,7 @@ The Trip Management Service is responsible for aggregating and presenting a unif
 
 ## 🔁 Interactions
 
-- 📥 Fetches **ride requests** and **ride offers** from the internal trip database
+- 📥 Fetches **ride requests** and **ride offers** from the database
 - 🧠 Calls the **Profile Service** to enrich trips with user profile data (e.g., driver/passenger info)
 - 🌐 Exposes **REST API endpoints** (via the **API Gateway**) to the user-facing application for viewing upcoming trips
 
