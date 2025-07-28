@@ -1,6 +1,6 @@
 # 🚘 Trip Management Service
 
-The Trip Management Service is responsible for aggregating and presenting a unified view of a user's upcoming trips. It integrates with both the **Request Management Service** and the **Profile Service** to enrich each trip with relevant and user-friendly details.
+The Trip Management Service is responsible for aggregating and presenting a unified view of a user's upcoming trips. It integrates with the **Profile Service** to enrich each trip with relevant and user-friendly details.
 
 ---
 
